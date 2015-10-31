@@ -1,0 +1,24 @@
+extends layout
+
+block content
+
+  div.row
+        div.col-md-3
+        div.col-md-6
+            .panel.panel-default
+                .panel-heading
+                    span.glyphicon.glyphicon-user(aria-hidden='true')
+                    | Login
+                .panel-body
+                    if (message && message != '')
+                        .alert.alert-danger
+                            strong #{message}
+                    div
+                        form(class='form-signin', action='/login', method='POST')
+                            p Username:
+                            input(type='text', name='username' class='form-control', placeholder='Username',required, autofocus)
+                            p Password:
+                            input(type='password', name='password' class='form-control', placeholder='Password', required)
+                            button(class='btn btn-lg btn-primary btn-block', type='submit') Login
+                            span.clearfix
+        div.col-md-3
