@@ -4,7 +4,7 @@ serversOffline = 0;
 
 
 $(document).ready(function() {
-	var socket = io('http://localhost:3449');
+	var socket = io('http://s1.prohost.gs:3449');
 
 	socket.emit('servers');
 	socket.emit('global-online');
@@ -34,12 +34,12 @@ $(document).ready(function() {
 
 	socket.on('global-servers-running', function(value) {
 		serversRunning = value;
-		$("#global-servers-running").text(serversRunning + '/' + serversOffline);
+		$("#global-servers-running").text(serversRunning + '/' + (serversOffline + serversRunning));
 	});
 
 	socket.on('global-servers-offline', function(value) {
 		serversOffline = value;
-		$("#global-servers-running").text(serversRunning + '/' + serversOffline);
+		$("#global-servers-running").text(serversRunning + '/' + (serversOffline + serversRunning));
 	});
 });
 
@@ -48,14 +48,16 @@ updateServerList = function() {
 	$("#game-list").find('tbody').empty();
 	servers.forEach(function(server) {
 		var playerCountPercentage = Math.round((server.players/server.max) * 100);
-		if(server.id.indexOf('hub' >= 0)) {
+		if(server.id.indexOf('h') >= 0) {
 			/* ==== HUB SERVER ==== */
 			var extraClass = "";
 			if(!server.online) {
-				extraClass += " offline-server"
+				extraClass += " offline-server";
 				server.players = 0;
 				server.tps = 0;
 				playerCountPercentage = 0;
+			} else {
+				extraClass += " online-server";
 			}
 
 			$("#hub-list").find('tbody')
@@ -86,17 +88,18 @@ updateServerList = function() {
 			/* ==== GAME SERVER ==== */
 			var extraClass = "";
 			if(!server.online) {
-				extraClass += " offline-server"
+				extraClass += " offline-server";
+				server.players = 0;
+				server.tps = 0;
+				playerCountPercentage = 0;
+			} else {
+				extraClass += " online-server";
 			}
 
 			$("#game-list").find('tbody')
 				.append($('<tr class="server' + extraClass + '"">')
 					.append($('<td class="server-id">')
 						.text(server.id)
-					)
-
-					.append($('<td class="server-map">')
-						.text('Map: ' + server.map)
 					)
 
 					.append($('<td>')

@@ -38,14 +38,19 @@ queryDatabase = function() {
 		results[0].forEach(function(server) {
 			var lastUpdate = new Date(server.updated);
 			var diff = now.getTime() - lastUpdate.getTime();
-			if(diff <= 10) {
+			if(diff <= 5000) {
 				server.online = true;
-				globalRegisteredTemp += 1;
+				globalOnlineTemp += server.players;
 				globalServersRunningTemp += 1;
 			} else {
 				server.online = false;
 				globalServersOfflineTemp += 1;
 			}
+
+			if(server.tps > 20) {
+				server.tps = 20;
+			}
+
 		});
 
 		/* ============ */
