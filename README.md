@@ -1,3 +1,6 @@
-# mcwar-panel
+# MC Status Panel
 
-* This panel is no longer in use.
+This was one of my first projects using Node.js
+The goal was to create a simple monitoring panel for the nearly dozen servers on mcwar.us
+
+No longer in use. 
